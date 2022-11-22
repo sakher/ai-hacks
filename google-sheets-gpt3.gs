@@ -1,5 +1,5 @@
 /**
- * GPT-3 and Google Sheets - Original script from https://lifearchitect.ai/sheets/ By Alan D. Thompson
+ * GPT-3 and Google Sheets - Original script from https://lifearchitect.ai/sheets/ By Dr Alan D. Thompson
  * Slightly improved by Sakher to include caching (via ThisDB free db) 
  * & other few small things - cache will be saved for 7 days for free.
  *
