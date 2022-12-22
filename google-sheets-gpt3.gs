@@ -15,9 +15,9 @@ const SECRET_KEY = "sk-PASTE-OPEN-AI-KEY-HERE";
  
 function GPT(
   prompt,
-  temperature = 0.3,
+  temperature = 0.3, // higher -> more creative - but higher risk of hallucination (?)
   max_tokens = 10,
-  model = "text-davinci-002" // more structured and deterministic: for data
+  model = "text-davinci-003" // more structured and deterministic: for data
   // or "davinci"; // more flexible and creative: for stories, chatbots
 ) {
   // if text is empty, return empty string - no need to do that from Google Sheets!
