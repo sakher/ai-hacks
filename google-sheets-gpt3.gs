@@ -28,7 +28,7 @@ function GPT(
   }
   cached_value = get_from_cache(prompt);
   if (cached_value != null) {
-    return cached_value + " [C]";
+    return cached_value;
   }
    
   const url = "https://api.openai.com/v1/chat/completions";
