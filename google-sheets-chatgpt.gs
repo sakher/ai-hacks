@@ -1,5 +1,6 @@
 /**
- * GPT-3 and Google Sheets - Original script from https://lifearchitect.ai/sheets/ By Dr Alan D. Thompson
+ * GPT-3 ChatGPT and Google Sheets - Original script from https://lifearchitect.ai/sheets/ By Dr Alan D. Thompson
+ * https://www.youtube.com/watch?v=TLdeq1te058
  * Slightly improved by Sakher to include caching (via ThisDB free db) 
  * & other few small things - cache will be saved for 7 days for free.
  *
@@ -17,21 +18,26 @@ function GPT(
   prompt,
   temperature = 0.3, // higher -> more creative - but higher risk of hallucination (?)
   max_tokens = 10,
-  model = "text-davinci-003" // more structured and deterministic: for data
+  model = "gpt-3.5-turbo"; // ChatGPT (10 times cheper than text-davinci-003
+  // "text-davinci-003" // more structured and deterministic: for data
   // or "davinci"; // more flexible and creative: for stories, chatbots
 ) {
   // if text is empty, return empty string - no need to do that from Google Sheets!
   if (prompt == "") {
-    return "-";
+    return "";
   }
   cached_value = get_from_cache(prompt);
   if (cached_value != null) {
     return cached_value + " [C]";
   }
-  const url = "https://api.openai.com/v1/completions";
+   
+  const url = "https://api.openai.com/v1/chat/completions";
   const payload = {
     model: model,
-    prompt: prompt,
+    messages: [
+      { role: "system", content: "" }, // blank priming prompt for lower token count
+      { role: "user", content: "" + prompt }, 
+    ],
     temperature: temperature,
     max_tokens: max_tokens,
   };
@@ -41,7 +47,7 @@ function GPT(
     payload: JSON.stringify(payload),
   };
   const res = JSON.parse(UrlFetchApp.fetch(url, options).getContentText());
-  res_text = res.choices[0].text.trim();
+  res_text = res.choices[0].message.content.trim();
   add_to_cache(prompt, res_text);
   return res_text;
 }
